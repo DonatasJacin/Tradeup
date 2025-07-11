@@ -63,22 +63,22 @@ def load_cached_data():
 
 def save_to_cache(df):
     df.to_csv(CACHE_FILE, index=False)
-    print(f"💾 Saved {len(df)} rows to {CACHE_FILE}")
+    print(f"Saved {len(df)} rows to {CACHE_FILE}")
 
 def main():
-    print("📦 Checking for cached data...")
+    print("Checking for cached data...")
     cached_df = load_cached_data()
     cached_names = set(cached_df["market_hash_name"]) if not cached_df.empty else set()
 
-    print("🔄 Fetching from Skinport...")
+    print("Fetching from Skinport...")
     try:
         items = fetch_skinport_items()
     except Exception as e:
-        print(f"❌ Error fetching data: {e}")
+        print(f"Error fetching data: {e}")
         return
 
     new_data = extract_skin_data(items, already_cached=cached_names)
-    print(f"➕ Parsed {len(new_data)} new items.")
+    print(f"Parsed {len(new_data)} new items.")
 
     if new_data:
         new_df = pd.DataFrame(new_data)
@@ -86,7 +86,7 @@ def main():
         combined.sort_values(by=["base_name", "wear"], inplace=True)
         save_to_cache(combined)
     else:
-        print("✅ No new data to save.")
+        print("No new data to save.")
 
 if __name__ == "__main__":
     main()
